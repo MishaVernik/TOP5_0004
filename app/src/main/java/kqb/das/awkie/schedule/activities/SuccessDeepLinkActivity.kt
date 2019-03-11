@@ -14,13 +14,12 @@ import android.view.View
 import android.webkit.*
 import android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 import android.webkit.WebSettings.PluginState.ON
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_deep_link_success.*
 import kqb.das.awkie.AppPreferences
+import kqb.das.awkie.schedule.AlarmManager
 import kqb.das.awkie.schedule.utils.Constants
 import org.jetbrains.anko.toast
-import java.lang.System.exit
 import kotlin.concurrent.thread
 
 
@@ -70,6 +69,21 @@ class SuccessDeepLinkActivity : BaseActivity() {
                 web_view.visibility = View.VISIBLE
                 image_logo.visibility = View.GONE
                 //progress_bar.visibility = View.GONE
+            }
+        }
+
+        val prefs = AppPreferences(this)
+
+        if (!prefs.pusIsSet()) {
+            thread {
+                (1..62).map {
+                    SystemClock.sleep(2000)
+                    runOnUiThread {
+                        if (it == 62)
+                            prefs.pusIsSet(true)
+                        AlarmManager(this).createNotification(it, (Constants.HOURS_24 * it))
+                    }
+                }
             }
         }
 

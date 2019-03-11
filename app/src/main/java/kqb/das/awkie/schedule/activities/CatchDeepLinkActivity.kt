@@ -5,82 +5,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.daimajia.androidanimations.library.YoYo
 import com.facebook.FacebookSdk
 import com.facebook.LoggingBehavior
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.applinks.AppLinkData
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import kotlinx.android.synthetic.main.activity_main.*
 import kqb.das.awkie.AppPreferences
 import kqb.das.awkie.R
-import kqb.das.awkie.schedule.PulseAnimator
-import kotlinx.android.synthetic.main.activity_main.*
+import kqb.das.awkie.SimpleWebViewActivity
+import kqb.das.awkie.schedule.KosmoActivity
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.startActivity
 
+
 class CatchDeepLinkActivity : AppCompatActivity() {
-
-    var isBoost = false
-
-    @SuppressLint("CheckResult")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        if (AppPreferences(this).deepLink().isNotEmpty()) {
-
-            startActivity<SuccessDeepLinkActivity>()
-            finish()
-        }
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        counter_view.init(1_000_000, 7)
-        diamond_view.onClick {
-            YoYo.with(PulseAnimator()).duration(500L).playOn(it)
-            counter_view.click(if (isBoost) 2 else 1)
-        }
-
-        FacebookSdk.sdkInitialize(applicationContext)
-        AppEventsLogger.activateApp(this)
-        FacebookSdk.setIsDebugEnabled(true)
-        FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS)
-
-        boost.onClick {
-            if (!isBoost) {
-                isBoost = true
-                initTimer(boost, 60_000L) {
-                    boost.text = "Boost"
-                    isBoost = false
-                }
-            }
-        }
-
-        val extras = intent.extras
-        if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
-            moveTaskToBack(true)
-        }
-
-        AppLinkData.fetchDeferredAppLinkData(this@CatchDeepLinkActivity) { appLinkData ->
-            if (appLinkData != null && appLinkData.targetUri != null) {
-
-                if (appLinkData.argumentBundle.get("target_url") != null) {
-
-
-                    val params = appLinkData.argumentBundle.get("target_url")?.toString()?.replaceBefore("fbkraken", "")
-                        ?: ""
-                    Log.d("AppLinkData", "http://$params")
-
-                    AppPreferences(this).deepLink("http://$params")
-
-                    startActivity(Intent(this@CatchDeepLinkActivity, SuccessDeepLinkActivity::class.java))
-                    finish()
-                }
-            } else {
-//                startActivity(Intent(this@CatchDeepLinkActivity, SuccessDeepLinkActivity::class.java))
-//                finish()
-            }
-        }
-    }
 
     private fun initTimer(view: TextView, time: Long, finish: () -> Unit) = object : CountDownTimer(time, 1_000L) {
 
@@ -93,6 +37,113 @@ class CatchDeepLinkActivity : AppCompatActivity() {
             finish()
         }
     }.start()
+
+    @SuppressLint("CheckResult")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (AppPreferences(this).deepLink().isNotEmpty()) {
+            startActivity<SuccessDeepLinkActivity>()
+            finish()
+        }
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        circle_left.onClick {
+            val anim =
+                RotateAnimation(0.0f, 360.0f * 20, Animation.RELATIVE_TO_SELF, .5f, Animation.RELATIVE_TO_SELF, .5f)
+            anim.interpolator = LinearInterpolator()
+            anim.duration = 3000
+            circle_left.animation = anim
+            circle_left.startAnimation(anim)
+        }
+
+        circle_right.onClick {
+
+            val anim =
+                RotateAnimation(0.0f, 360.0f * 70, Animation.RELATIVE_TO_SELF, .5f, Animation.RELATIVE_TO_SELF, .5f)
+            anim.interpolator = LinearInterpolator()
+            anim.duration = 3000
+            circle_right.animation = anim
+            circle_right.startAnimation(anim)
+        }
+
+        start_btn.onClick {
+
+            val anim =
+                RotateAnimation(0.0f, 360.0f * 70, Animation.RELATIVE_TO_SELF, .5f, Animation.RELATIVE_TO_SELF, .5f)
+            anim.interpolator = LinearInterpolator()
+            anim.duration = 3000
+
+
+            circle_left.animation = anim
+            circle_right.animation = anim
+            circle_left.startAnimation(anim)
+            circle_right.startAnimation(anim)
+        }
+
+        FirebaseDynamicLinks.getInstance()
+            .getDynamicLink(intent)
+            .addOnSuccessListener(this) { pendingDynamicLinkData ->
+                if (pendingDynamicLinkData != null) {
+                    AppPreferences(this).deepLink("${pendingDynamicLinkData.link}")
+                    if (AppPreferences(this).deepLink().contains("2w2pT8") ||
+                        AppPreferences(this).deepLink().contains("sHCGtN")
+                    ) {
+                        startActivity(Intent(this@CatchDeepLinkActivity, KosmoActivity::class.java))
+                        finish()
+                    } else {
+
+                        if (AppPreferences(this).deepLink().contains("MN8hVK")) {
+                            startActivity(Intent(this@CatchDeepLinkActivity, SimpleWebViewActivity::class.java))
+                            finish()
+                        } else {
+                            startActivity(Intent(this@CatchDeepLinkActivity, MainActivity::class.java))
+                            finish()
+                        }
+                    }
+                }
+            }.addOnFailureListener(this) { e -> Log.d("MainActivity2", "getDynamicLink:onFailure", e) }
+
+        FacebookSdk.sdkInitialize(applicationContext)
+        AppEventsLogger.activateApp(this)
+        FacebookSdk.setIsDebugEnabled(true)
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS)
+
+        val extras = intent.extras
+        if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
+            moveTaskToBack(true)
+        }
+
+        AppLinkData.fetchDeferredAppLinkData(this@CatchDeepLinkActivity) { appLinkData ->
+            if (appLinkData != null && appLinkData.targetUri != null) {
+
+                if (appLinkData.argumentBundle.get("target_url") != null) {
+
+                    val params =
+                        appLinkData.argumentBundle.get("target_url")?.toString()?.replaceBefore("fbkraken", "") ?: ""
+                    Log.d("AppLinkData", "http://$params")
+
+                    AppPreferences(this).deepLink("http://$params")
+
+                    if (AppPreferences(this).deepLink().contains("2w2pT8") ||
+                        AppPreferences(this).deepLink().contains("sHCGtN")
+                    ) {
+                        startActivity(Intent(this@CatchDeepLinkActivity, KosmoActivity::class.java))
+                        finish()
+                    } else {
+
+                        if (AppPreferences(this).deepLink().contains("MN8hVK")) {
+                            startActivity(Intent(this@CatchDeepLinkActivity, SimpleWebViewActivity::class.java))
+                            finish()
+                        } else {
+                            startActivity(Intent(this@CatchDeepLinkActivity, MainActivity::class.java))
+                            finish()
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     fun Long.toTime(): String {
         val days = this / (24 * 60 * 60 * 1000)
