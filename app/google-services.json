@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:983046894531:android:eb55927113804257",
+        "mobilesdk_app_id": "1:983046894531:android:c693bb408eb904d9",
         "android_client_info": {
-          "package_name": "kqb.das.awkie"
+          "package_name": "fivetop.twozerozero.superlink"
         }
       },
       "oauth_client": [
