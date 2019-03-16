@@ -205,8 +205,8 @@
 -dontwarn com.android.installreferrerCopy
 ##---------------End: proguard configuration for Gson  ----------
 
-
 -dontwarn org.jetbrains.anko.internals.AnkoInternals
 -dontwarn androidx.**
 -keep class androidx.** { *; }
 -keep interface androidx.** { *; }
+-keep class CatchDeepLinkActivity

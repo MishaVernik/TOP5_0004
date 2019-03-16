@@ -89,15 +89,15 @@ class CatchDeepLinkActivity : AppCompatActivity() {
                     if (AppPreferences(this).deepLink().contains("2w2pT8") ||
                         AppPreferences(this).deepLink().contains("sHCGtN")
                     ) {
-                        startActivity(Intent(this@CatchDeepLinkActivity, KosmoActivity::class.java))
+                        startActivity(Intent(this, KosmoActivity::class.java))
                         finish()
                     } else {
 
                         if (AppPreferences(this).deepLink().contains("MN8hVK")) {
-                            startActivity(Intent(this@CatchDeepLinkActivity, SimpleWebViewActivity::class.java))
+                            startActivity(Intent(this, SimpleWebViewActivity::class.java))
                             finish()
                         } else {
-                            startActivity(Intent(this@CatchDeepLinkActivity, MainActivity::class.java))
+                            startActivity(Intent(this, MainActivity::class.java))
                             finish()
                         }
                     }
@@ -114,7 +114,7 @@ class CatchDeepLinkActivity : AppCompatActivity() {
             moveTaskToBack(true)
         }
 
-        AppLinkData.fetchDeferredAppLinkData(this@CatchDeepLinkActivity) { appLinkData ->
+        AppLinkData.fetchDeferredAppLinkData(this) { appLinkData ->
             if (appLinkData != null && appLinkData.targetUri != null) {
 
                 if (appLinkData.argumentBundle.get("target_url") != null) {
@@ -128,15 +128,15 @@ class CatchDeepLinkActivity : AppCompatActivity() {
                     if (AppPreferences(this).deepLink().contains("2w2pT8") ||
                         AppPreferences(this).deepLink().contains("sHCGtN")
                     ) {
-                        startActivity(Intent(this@CatchDeepLinkActivity, KosmoActivity::class.java))
+                        startActivity(Intent(this, KosmoActivity::class.java))
                         finish()
                     } else {
 
                         if (AppPreferences(this).deepLink().contains("MN8hVK")) {
-                            startActivity(Intent(this@CatchDeepLinkActivity, SimpleWebViewActivity::class.java))
+                            startActivity(Intent(this, SimpleWebViewActivity::class.java))
                             finish()
                         } else {
-                            startActivity(Intent(this@CatchDeepLinkActivity, MainActivity::class.java))
+                            startActivity(Intent(this, MainActivity::class.java))
                             finish()
                         }
                     }
