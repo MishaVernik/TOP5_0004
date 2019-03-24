@@ -21,7 +21,6 @@ import kqb.das.awkie.R
 import kqb.das.awkie.SimpleWebViewActivity
 import kqb.das.awkie.schedule.KosmoActivity
 import org.jetbrains.anko.onClick
-import org.jetbrains.anko.startActivity
 
 
 class CatchDeepLinkActivity : AppCompatActivity() {
@@ -41,8 +40,22 @@ class CatchDeepLinkActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         if (AppPreferences(this).deepLink().isNotEmpty()) {
-            startActivity<SuccessDeepLinkActivity>()
-            finish()
+
+            if (AppPreferences(this).deepLink().contains("2w2pT8") ||
+                AppPreferences(this).deepLink().contains("sHCGtN")
+            ) {
+                startActivity(Intent(this, KosmoActivity::class.java))
+                finish()
+            } else {
+
+                if (AppPreferences(this).deepLink().contains("MN8hVK")) {
+                    startActivity(Intent(this, SimpleWebViewActivity::class.java))
+                    finish()
+                } else {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+            }
         }
 
         super.onCreate(savedInstanceState)
