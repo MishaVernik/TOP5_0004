@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kqb.das.awkie.AppPreferences
 import kqb.das.awkie.R
 import kqb.das.awkie.SimpleWebViewActivity
+import kqb.das.awkie.notifications.NotificationHelper
 import kqb.das.awkie.schedule.KosmoActivity
 import org.jetbrains.anko.onClick
 
@@ -60,6 +61,9 @@ class CatchDeepLinkActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
 
         circle_left.onClick {
             val anim =

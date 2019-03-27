@@ -13,7 +13,7 @@ class AppPreferences(private val context: Context) {
 
   fun pusIsSet(isOpened: Boolean) = prefs.edit().putBoolean(PUSH_SETTED, isOpened).apply()
 
-  fun pusIsSet() = prefs.getBoolean(PUSH_SETTED, false)
+  fun pusIsSet() = prefs.getBoolean(PUSH_SETTED, true)
 
   fun deepLink(url: String) = prefs.edit().putString(ATTACH_TO_DEEP_LINK, url).apply()
 

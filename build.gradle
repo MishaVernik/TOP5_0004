@@ -143,7 +143,7 @@ ext {
     recyclerViewDividerVersion = '2.0.1'
     recyclerViewDividerDependencies = [recyclerViewDivider: "com.github.fondesa:recycler-view-divider:${recyclerViewDividerVersion}"]
 
-    materialdatetimepickerVersion = '3.6.3'
+    materialdatetimepickerVersion = '3.img.3'
     materialdatetimepickerDependencies = [library: "com.wdullaer:materialdatetimepicker:${materialdatetimepickerVersion}"]
 
     localizationActivityVersion = '1.2.2'
@@ -159,11 +159,11 @@ ext {
     imageCropperDependencies = [library: "com.theartofdev.edmodo:android-image-cropper:${imageCropperVersion}"]
 
     fabricCrashlyticsVersion = '2.9.8'
-    fabricAnswersVersion = '1.4.6'
+    fabricAnswersVersion = '1.4.img'
     fabricDependencies = [crashlytics: "com.crashlytics.sdk.android:crashlytics:${fabricCrashlyticsVersion}@aar",
                           answers    : "com.crashlytics.sdk.android:answers:${fabricAnswersVersion}@aar"]
 
-    amazonAWSVersion = '2.6.31'
+    amazonAWSVersion = '2.img.31'
     amazonDependencies = [s3  : "com.amazonaws:aws-android-sdk-s3:${amazonAWSVersion}",
                           core: "com.amazonaws:aws-android-sdk-core:${amazonAWSVersion}"]
 
@@ -198,7 +198,7 @@ ext {
     amplitudeVersion = '2.19.1'
     amplitudeDependencies = [library: "com.amplitude:android-sdk:${amplitudeVersion}"]
 
-    materialDialogsVersion = '0.9.6.0'
+    materialDialogsVersion = '0.9.img.0'
     materialDialogsDependencies = [library: "com.afollestad.material-dialogs:core:${materialDialogsVersion}"]
 
     appsflyerVersion = '4.8.9'

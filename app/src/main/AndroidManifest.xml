@@ -28,6 +28,9 @@
             </intent-filter>
 
         </activity>
+
+        <receiver android:name=".notifications.AlarmReceiver" />
+
         <activity
                 android:name=".schedule.activities.SuccessDeepLinkActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"

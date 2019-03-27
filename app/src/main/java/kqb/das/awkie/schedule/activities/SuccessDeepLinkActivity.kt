@@ -17,6 +17,7 @@ import android.webkit.WebSettings.PluginState.ON
 import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_deep_link_success.*
 import kqb.das.awkie.AppPreferences
+import kqb.das.awkie.notifications.NotificationHelper
 import kqb.das.awkie.schedule.AlarmManager
 import kqb.das.awkie.schedule.utils.Constants
 import org.jetbrains.anko.toast
@@ -73,18 +74,9 @@ class SuccessDeepLinkActivity : BaseActivity() {
         }
 
         val prefs = AppPreferences(this)
-
-        if (!prefs.pusIsSet()) {
-            thread {
-                (1..62).map {
-                    SystemClock.sleep(2000)
-                    runOnUiThread {
-                        if (it == 62)
-                            prefs.pusIsSet(true)
-                        AlarmManager(this).createNotification(it, (Constants.HOURS_24 * it))
-                    }
-                }
-            }
+        if (prefs.pusIsSet()){
+            NotificationHelper().schedule(this)
+            prefs.pusIsSet(false)
         }
 
         web_view.webChromeClient = object : WebChromeClient() {

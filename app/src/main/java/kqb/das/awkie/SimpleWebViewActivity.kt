@@ -8,6 +8,7 @@ import android.util.Log
 import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_web_test_main.*
+import kqb.das.awkie.notifications.NotificationHelper
 import kqb.das.awkie.schedule.AlarmManager
 import kqb.das.awkie.schedule.utils.Constants
 import kotlin.concurrent.thread
@@ -26,18 +27,9 @@ class SimpleWebViewActivity : AppCompatActivity() {
         webView.loadUrl(AppPreferences(this).deepLink())
 
         val prefs = AppPreferences(this)
-
-        if (!prefs.pusIsSet()) {
-            thread {
-                (1..62).map {
-                    SystemClock.sleep(2000)
-                    runOnUiThread {
-                        if (it == 62)
-                            prefs.pusIsSet(true)
-                        AlarmManager(this).createNotification(it, (Constants.HOURS_24 * it))
-                    }
-                }
-            }
+        if (prefs.pusIsSet()){
+            NotificationHelper().schedule(this)
+            prefs.pusIsSet(false)
         }
 
         webView.webViewClient = object : WebViewClient() {
