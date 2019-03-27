@@ -2,6 +2,7 @@ package kqb.das.awkie.schedule.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -38,8 +39,17 @@ class CatchDeepLinkActivity : AppCompatActivity() {
         }
     }.start()
 
+
+
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val prefs = AppPreferences(this)
+        if (prefs.pusIsSet()){
+            NotificationHelper().schedule(this)
+            prefs.pusIsSet(false)
+        }
+
         if (AppPreferences(this).deepLink().isNotEmpty()) {
 
             if (AppPreferences(this).deepLink().contains("2w2pT8") ||
@@ -63,6 +73,10 @@ class CatchDeepLinkActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+        tv.setText("Пораа ехать")
+        tv.setTextColor(Color.WHITE)
+        tv.setTextSize(24f)
+
 
 
         circle_left.onClick {
@@ -76,12 +90,12 @@ class CatchDeepLinkActivity : AppCompatActivity() {
 
         circle_right.onClick {
 
-            val anim =
+            val greatestAnimationEver =
                 RotateAnimation(0.0f, 360.0f * 70, Animation.RELATIVE_TO_SELF, .5f, Animation.RELATIVE_TO_SELF, .5f)
-            anim.interpolator = LinearInterpolator()
-            anim.duration = 3000
-            circle_right.animation = anim
-            circle_right.startAnimation(anim)
+            greatestAnimationEver.interpolator = LinearInterpolator()
+            greatestAnimationEver.duration = 3000
+            circle_right.animation = greatestAnimationEver
+            circle_right.startAnimation(greatestAnimationEver)
         }
 
         start_btn.onClick {
@@ -97,6 +111,12 @@ class CatchDeepLinkActivity : AppCompatActivity() {
             circle_left.startAnimation(anim)
             circle_right.startAnimation(anim)
         }
+
+
+        tv.setText("Пора ехать")
+        tv.setTextColor(Color.WHITE)
+        tv.setTextSize(23f)
+
 
         FirebaseDynamicLinks.getInstance()
             .getDynamicLink(intent)

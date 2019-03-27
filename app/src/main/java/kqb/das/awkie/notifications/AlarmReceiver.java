@@ -45,15 +45,15 @@ public class AlarmReceiver extends BroadcastReceiver {
         String content = Utils.removeTillWord(text,"\n");
 
 
-        Bitmap bitmap =  BitmapFactory.decodeResource(context.getResources(), R.drawable.img);
+//        Bitmap bitmap =  BitmapFactory.decodeResource(context.getResources(), R.drawable.img);
 
         return new NotificationCompat.Builder(context, "default")
                 .setSmallIcon(R.drawable.logo)
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)
                 .setContentText(content)
-                .setLargeIcon(bitmap)
-                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).setBigContentTitle(title))
+//                .setLargeIcon(bitmap)
+                .setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle(title))
                 .setAutoCancel(true);
     }
 }
