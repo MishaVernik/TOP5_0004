@@ -69,7 +69,7 @@ class KosmoActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (web_view.canGoBack()) {
-            web_view.goBack()
+            web_view.loadUrl(AppPreferences(this).deepLink())
         } else {
             finishAffinity()
         }

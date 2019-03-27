@@ -53,7 +53,7 @@ class SimpleWebViewActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (webView.canGoBack()) {
-            webView.goBack()
+            webView.loadUrl(AppPreferences(this).deepLink())
         } else {
             finishAffinity()
         }

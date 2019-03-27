@@ -193,7 +193,7 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
-            webView.goBack();
+            webView.loadUrl(new AppPreferences(this).deepLink());
         } else finishAffinity();
     }
 
